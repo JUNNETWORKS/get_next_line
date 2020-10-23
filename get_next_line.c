@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/24 00:32:35 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 00:47:46 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,20 @@ int get_next_line(int fd, char **line)
 	{
 		// printf("\n*next_str 内に改行が入っていたら改行までを *line にコピーして, 改行以降を *next_str に入れて return\n");
 		old_line = *line;
-		*line = ft_substr(next_str, 0, ft_strchr(next_str, '\n') - next_str);
+		if (!(*line = ft_substr(next_str, 0, ft_strchr(next_str, '\n') - next_str)))
+		{
+			free(old_line);
+			free(buf);
+			return (-1);
+		}
 		free(old_line);
 		tmp = next_str;
-		next_str = ft_substr(ft_strchr(next_str, '\n') + 1, 0, ft_strlen(ft_strchr(next_str, '\n')));
+		if (!(next_str = ft_substr(ft_strchr(next_str, '\n') + 1, 0, ft_strlen(ft_strchr(next_str, '\n')))))
+		{
+			free(tmp);
+			free(buf);
+			return (-1);
+		}
 		free(tmp);
 		free(buf);
 		return (1);
@@ -73,7 +83,6 @@ int get_next_line(int fd, char **line)
 		free(buf);
 		return (0);
 	}
-		
 
 	// if read() の返り値が-1なら-1を返す
 	if (read_size == -1)
@@ -83,11 +92,16 @@ int get_next_line(int fd, char **line)
 	}
 
 	// while (read_size > 0 && bufの中に改行が無い)
-	while (read_size && !ft_strchr(buf, '\n'))
+	while (read_size > 0 && !ft_strchr(buf, '\n'))
 	{
 		// printf("\nif 改行が読み込んだ文字列内に無ければそれを*lineにそのまま strjoin(*line, buf) で入れる\n");
 		old_line = *line;
-		*line = ft_strjoin(*line, buf);
+		if (!(*line = ft_strjoin(*line, buf)))
+		{
+			free(old_line);
+			free(buf);
+			return (-1);
+		}
 		free(old_line);
 		read_size = read(fd, buf, BUFFER_SIZE);
 		buf[read_size] = '\0';
@@ -95,21 +109,30 @@ int get_next_line(int fd, char **line)
 		// printf("buf[] の中身: %s\n", buf);
 	}
 
-	// // 最後改行が無いファイルの場合はそこまでの分を返す
-	// if (read_size == 0)
-	// 	return (1);
-
 	// if 改行が来たらそれまでの文字列は *line に入れて,
 	//    それ以降の文字列は *next_str に入れる
-	if (read_size && ft_strchr(buf, '\n'))
+	if (read_size > 0)
 	{
 		// printf("\nif 改行が来たらそれまでの文字列は *line に入れて,それ以降の文字列は *next_str に入れる\n");
-		tmp = ft_substr(buf, 0, ft_strchr(buf, '\n') - buf);
+		if (!(tmp = ft_substr(buf, 0, ft_strchr(buf, '\n') - buf)))
+		{
+			free(buf);
+			return (-1);
+		}
 		old_line = *line;
-		*line = ft_strjoin(*line, tmp);
+		if (!(*line = ft_strjoin(*line, tmp)))
+		{
+			free(old_line);
+			free(tmp);
+			return (-1);
+		}
 		free(old_line);
 		free(tmp);
-		next_str = ft_substr(ft_strchr(buf, '\n') + 1, 0, ft_strlen(ft_strchr(buf, '\n')));
+		if (!(next_str = ft_substr(ft_strchr(buf, '\n') + 1, 0, ft_strlen(ft_strchr(buf, '\n')))))
+		{
+			free(buf);
+			return (-1);
+		}
 		free(buf);
 		return (1);
 	}
