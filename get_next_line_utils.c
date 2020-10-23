@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:53:53 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/23 23:47:59 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 00:13:21 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*ft_strdup(const char *s)
 		i++;
 	}
 	new_str[s_len] = '\0';
-
 	return (new_str);
 }
 
