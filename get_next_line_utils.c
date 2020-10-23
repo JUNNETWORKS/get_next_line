@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:53:53 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/23 21:06:59 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/23 22:34:24 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strdup(const char *s)
 {
 	size_t			s_len;
 	char			*new_str;
-	size_t			i;
+	// size_t			i;
 
 	s_len = ft_strlen(s);
 	if (!(new_str = (char*)malloc(s_len + 1)))
@@ -61,8 +61,8 @@ char	*ft_strdup(const char *s)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*substr;
-	size_t			i;
-	size_t			s_len;
+	// size_t			i;
+	// size_t			s_len;
 
 	if (!(substr = malloc(len + 1)))
 		return (NULL);
