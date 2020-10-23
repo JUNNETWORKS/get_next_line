@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/23 23:52:58 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 00:07:13 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int get_next_line(int fd, char **line)
 		old_line = *line;
 		*line = ft_substr(next_str, 0, ft_strchr(next_str, '\n') - next_str);
 		free(old_line);
+		tmp = next_str;
 		next_str = ft_substr(ft_strchr(next_str, '\n') + 1, 0, ft_strlen(ft_strchr(next_str, '\n')));
-		free(next_str);
-		next_str = NULL;
+		free(tmp);
 		free(buf);
 		return (1);
 	}
