@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/23 20:57:52 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/23 21:11:42 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int get_next_line(int fd, char **line)
 	char *current_str;  // 今回出力する文字列
 	static char *next_str;  // 次使う文字列
 
+	current_str = NULL;
 	// *next_str に文字列が入っていたら(next_str[0] != '\0')それを *current_str に入れて *next_str を空にする
 	if (next_str)
 	{
