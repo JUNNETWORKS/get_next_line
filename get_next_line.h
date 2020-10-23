@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 23:43:27 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/23 21:02:10 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/23 23:48:06 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <unistd.h>
 
 # define EOF (-1)
-// # define BUFFER_SIZE (32)  // ここはgccのコンパイルオプションで指定するので別にいらない
 
 int		get_next_line(int fd, char **line);
 char	*ft_strdup(const char *s);
