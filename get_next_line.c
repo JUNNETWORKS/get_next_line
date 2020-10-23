@@ -6,99 +6,49 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/21 02:17:18 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/23 20:34:37 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+dnakanoさんによると, ft_strjoin()などを駆使して書けばいいらしい.
+*/
+
 #include "get_next_line.h"
+#include "libft.h"  // あとで消す
 
-char *generate_str_from_lst(t_list **str_list);
-
-int get_idx(char *buf, char c)
+int get_next_line(int fd, char **line)
 {
-	int i;
-	
-	i = 0;
-	while (buf[i])
+	int status;  // return status
+	char buf[BUFFER_SIZE];
+	char *current_str;  // 今回出力する文字列
+	static char *next_str;  // 次使う文字列
+
+	// *next_str に文字列が入っていたら(next_str[0] != '\0')それを *current_str に入れて *next_str を空にする
+	if (next_str)
 	{
-		if (buf[i] == c)
-			return (i);
-		i++;
+		current_str = ft_strdup(next_str);
+		free(next_str);
+		next_str = NULL;
 	}
-	return (-1);
-}
-
-int	get_next_line(int fd, char **line)
-{
-	int i;
-	int idx;
-	static char buf[BUFFER_SIZE];
 	
-	// ファイルから BUFFER_SIZE 読み込み
-	read(fd, buf, BUFFER_SIZE - 1);
-	buf[BUFFER_SIZE - 1] = '\0';
-	
-	i = 0;
-	// (改行||EOF) があった場合
-	if ((idx = get_idx(buf, '\0')) >= 0)
+	// *current_str 内に改行が入っていたら改行までを *line にコピーして, 改行以降を *next_str に入れて return
+	if (ft_strchr(current_str, '\n'))
 	{
-		if (!(*line = malloc(idx + 1)))
-			return (-1);
-		while (i < idx)
-			*line[i] = buf[i++];
-		*line[i] = '\0';
+		*line = ft_substr(current_str, 0, ft_strchr(current_str, '\n') - current_str);
+		next_str = ft_substr(ft_strchr(current_str, '\n') + 1, 0, ft_strlen(ft_strchr(current_str, '\n')));
 		return (1);
 	}
-	// (改行||EOF) が無かった場合
-	else
-	{
-		// bufで連結リストを作成
-		t_list *str_list;
-		if(!(str_list = ft_lstadd_str_back(&str_list, buf)))
-			return (NULL);
-		// ft_lstadd_back(&str_list, ft_lstnew(ft_strdup(buf)));
-		read(fd, buf, BUFFER_SIZE - 1);
-		while (get_idx(buf, '\n') || get_idx(buf, EOF))
-		{
-			if(!(str_list = ft_lstadd_str_back(&str_list, buf)))
-			{
-				ft_lstclear(&str_list);
-				return(NULL);
-			}
-			// ft_lstadd_back(&str_list, ft_lstnew(ft_strdup(buf)));
-			read(fd, buf, BUFFER_SIZE - 1);
-		}
-		// ft_lstadd_back(&str_list, ft_lstnew(ft_strdup(buf)));
-		str_list = ft_lstadd_str_back(&str_list, buf);
 
-		// 連結リストから文字列を生成する
-		*line = generate_str_from_lst(&str_list);
-		return (1);
-	}
-}
+	// BUFFER_SIZE 読み込む
 
-char *generate_str_from_lst(t_list **str_list)
-{
-	unsigned int	str_len;
-	char			*str;
-	char			*str_tmp;
-	t_list			*lst_tmp;
+	// if read() の返り値が0なら0を返す
 
-	// (連結リストの個数 - 1) * (BUFFER_SIZE - 1) + 最後の要素の改行までの文字数 をmalloc()で確保
-	str_len = (ft_lstsize(*str_list) - 1) * (BUFFER_SIZE - 1);
-	str_len += ft_strlen(ft_lstlast(*str_list)->str);
-	if (!(str = (char*)malloc(str_len + 1)))
-		return (NULL);
+	// if read() の返り値が-1なら-1を返す
+
+	// if 改行が読み込んだ文字列内に無ければそれを*lineにそのまま strjoin(*line, buf) で入れる
 	
-	// 連結リストから文字列を生成
-	lst_tmp = *str_list;
-	str_tmp = str;
-	while (lst_tmp)
-	{
-		while (*lst_tmp->str && *lst_tmp->str != '\n' && *lst_tmp->str != EOF)
-			*str_tmp++ = *lst_tmp->str++;
-		lst_tmp = lst_tmp->next;
-	}
-	*str_tmp = '\0';
-	return (str);
+	// if 改行が来たらそれまでの文字列は *line に入れて,
+	//    それ以降の文字列は *next_str に入れる
+
 }
