@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/24 00:47:46 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 00:59:28 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int get_next_line(int fd, char **line)
 	{
 		old_line = *line;
 		*line = next_str;
+		next_str = NULL;
 		free(old_line);
 	}
 
@@ -78,17 +79,11 @@ int get_next_line(int fd, char **line)
 	// printf("buf[] の中身: %s\n", buf);
 
 	// if read() の返り値が0なら0を返す
-	if (read_size == 0)
-	{
-		free(buf);
-		return (0);
-	}
-
 	// if read() の返り値が-1なら-1を返す
-	if (read_size == -1)
+	if (read_size == 0 || read_size == -1)
 	{
 		free(buf);
-		return (-1);
+		return (read_size);
 	}
 
 	// while (read_size > 0 && bufの中に改行が無い)
