@@ -6,9 +6,19 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/24 00:07:13 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 00:32:35 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+通ってないテスト
+test/long_line.txt  BUF=64
+test/64bit_line.txt  BUF=63
+test/long_line.txt  BUF=63
+test/long_line.txt  BUF=65
+test/long_line.txt  BUF=100
+test/long_line.txt  BUF=9999
+*/
 
 #include "get_next_line.h"
 #include <stdio.h>
@@ -80,6 +90,7 @@ int get_next_line(int fd, char **line)
 		*line = ft_strjoin(*line, buf);
 		free(old_line);
 		read_size = read(fd, buf, BUFFER_SIZE);
+		buf[read_size] = '\0';
 		// printf("read(fd, buf, BUFFER_SIZE)の返り値: %ld\n", read_size);
 		// printf("buf[] の中身: %s\n", buf);
 	}
