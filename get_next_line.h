@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 23:43:27 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/23 23:48:06 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 00:14:15 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
-# define EOF (-1)
 
 int		get_next_line(int fd, char **line);
 char	*ft_strdup(const char *s);
