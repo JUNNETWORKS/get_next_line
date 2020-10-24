@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 02:04:05 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/25 02:06:30 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	join_line_and_buf(char **line, char *buf)
 static int	read_process(int fd, char **line, char **next_str)
 {
 	ssize_t		read_size;
-	int 		ret;
+	int			ret;
 	char		*buf;
 
 	ret = CONTINUE_PROC;
@@ -117,18 +117,5 @@ int			get_next_line(int fd, char **line)
 		ret = join_save_next_str(line, &next_str);
 	if (ret == CONTINUE_PROC)
 		ret = read_process(fd, line, &next_str);
-	// while (ret == CONTINUE_PROC && (read_size = read(fd, buf, BUFFER_SIZE)) > 0)
-	// {
-	// 	buf[read_size] = '\0';
-	// 	if (ft_strchr(buf, '\n'))
-	// 		ret = split_by_newline(line, &next_str, buf);
-	// 	else
-	// 		ret = join_line_and_buf(line, buf);
-	// }
-	// free(buf);
-	// if (ret == CONTINUE_PROC && read_size == 0)
-	// 	ret = END_OF_FILE;
-	// else if (ret == CONTINUE_PROC && read_size == -1)
-	// 	ret = ERROR;
 	return (ret);
 }
