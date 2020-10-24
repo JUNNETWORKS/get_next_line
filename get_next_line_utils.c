@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:53:53 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 00:12:22 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/25 00:56:38 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char			*ans;
 	unsigned int	total_len;
 
+	if (!s1 && !s2)
+		return (NULL);
+	if (s1 && !s2)
+		return (ft_strdup(s1));
+	if (!s1 && s2)
+		return (ft_strdup(s2));
 	total_len = ft_strlen(s1) + ft_strlen(s2);
 	if (!(str = malloc(total_len + 1)))
 		return (NULL);

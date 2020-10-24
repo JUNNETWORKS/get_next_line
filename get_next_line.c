@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 00:19:56 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/25 00:58:27 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int			get_next_line(int fd, char **line)
 	char		*buf;
 	static char	*next_str;
 
-	buf = malloc(BUFFER_SIZE + 1);
-	*line = malloc(1);
-	*line[0] = '\0';
+	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(buf = malloc(BUFFER_SIZE + 1)))
+		return (ERROR);
+	*line = NULL;
 	ret = CONTINUE_PROC;
 	if (next_str)
 		ret = join_save_next_str(line, &next_str);
