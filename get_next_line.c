@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/24 23:43:02 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 23:58:42 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,29 @@ int split_by_newline(char **line, char **next_str, char *buf)
 	return (SUCCESS);
 }
 
+int join_line_and_buf(char **line, char *buf)
+{
+	char *tmp;
+	tmp = *line;
+	if (!(*line = ft_strjoin(*line, buf)))
+	{
+		free(tmp);
+		return (ERROR);
+	}
+	free(tmp);	
+	return (CONTINUE_PROCESS);
+}
+
 int get_next_line(int fd, char **line)
 {
 	ssize_t read_size;
 	int status;
 	char *buf;
-	char *tmp;
 	static char *next_str;  // 次使う文字列
 
 	buf = malloc(BUFFER_SIZE + 1);  // ヒープ領域に確保する必要ある?
 	*line = malloc(1);
 	*line[0] = '\0';
-	tmp = NULL;
 	status = CONTINUE_PROCESS;
 	if (next_str)
 		status = join_save_next_str(line, &next_str);// TODO: 返り値をどうするか
@@ -87,17 +98,12 @@ int get_next_line(int fd, char **line)
 		if (ft_strchr(buf, '\n'))
 			status = split_by_newline(line, &next_str, buf);
 		else
-		{
-			tmp = *line;
-			if (!(*line = ft_strjoin(*line, buf)))
-				status = ERROR;
-			free(tmp);
-		}
+			status = join_line_and_buf(line, buf);
 	}
 	free(buf);
-	if (read_size == 0)
+	if (status == CONTINUE_PROCESS && read_size == 0)
 		status = END_OF_FILE;
-	else if (read_size == -1)
+	else if (status == CONTINUE_PROCESS && read_size == -1)
 		status = ERROR;
 	return (status);
 }
