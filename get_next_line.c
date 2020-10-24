@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/24 01:56:20 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 18:24:00 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,37 +26,39 @@ int get_next_line(int fd, char **line)
 	*line[0] = '\0';
 	tmp = NULL;
 	old_line = NULL;
-	// *next_str 内に改行が入っていたら改行までを *line にコピーして, 改行以降を *next_str に入れて return
-	if (next_str && ft_strchr(next_str, '\n'))
+	if (next_str)
 	{
-		old_line = *line;
-		if (!(*line = ft_substr(next_str, 0, ft_strchr(next_str, '\n') - next_str)))
+		// TODO: ここを関数に切り出す
+		if (ft_strchr(next_str, '\n'))  // *next_str 内に改行が入っていたら改行までを *line にコピーして, 改行以降を *next_str に入れて return
 		{
+			old_line = *line;
+			if (!(*line = ft_substr(next_str, 0, ft_strchr(next_str, '\n') - next_str)))
+			{
+				free(old_line);
+				free(buf);
+				return (-1);
+			}
 			free(old_line);
-			free(buf);
-			return (-1);
-		}
-		free(old_line);
-		tmp = next_str;
-		if (!(next_str = ft_substr(ft_strchr(next_str, '\n') + 1, 0, ft_strlen(ft_strchr(next_str, '\n')))))
-		{
+			tmp = next_str;
+			if (!(next_str = ft_substr(ft_strchr(next_str, '\n') + 1, 0, ft_strlen(ft_strchr(next_str, '\n')))))
+			{
+				free(tmp);
+				free(buf);
+				return (-1);
+			}
 			free(tmp);
 			free(buf);
-			return (-1);
+			return (1);
 		}
-		free(tmp);
-		free(buf);
-		return (1);
+		else  // next_str 内に改行が入っていない
+		{
+			old_line = *line;
+			*line = next_str;
+			next_str = NULL;
+			free(old_line);	
+		}
 	}
-	// next_str 内に改行が入っていない
-	else if (next_str && !ft_strchr(next_str, '\n'))
-	{
-		old_line = *line;
-		*line = next_str;
-		next_str = NULL;
-		free(old_line);
-	}
-	
+
 	// 改行が出現するまで読み込んで繋げる.
 	// 改行が出現したらそれまでの文字列を*lineに入れて, それ以降の文字列を*next_strに入れる
 	while ((read_size = read(fd, buf, BUFFER_SIZE)) > 0)
@@ -66,6 +68,7 @@ int get_next_line(int fd, char **line)
 		//    それ以降の文字列は *next_str に入れる
 		if (ft_strchr(buf, '\n'))
 		{
+			// TODO: ここを関数に切り出す
 			if (!(tmp = ft_substr(buf, 0, ft_strchr(buf, '\n') - buf)))
 			{
 				free(buf);
