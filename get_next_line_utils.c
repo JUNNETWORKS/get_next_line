@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:53:53 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/24 00:39:28 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 15:21:19 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	s_len = ft_strlen(s);
 	while (i < len && i < s_len)
+	{
 		substr[i] = *(s + start + i);
+		i++;
+	}
 	substr[i] = '\0';
 	return (substr);
 }
