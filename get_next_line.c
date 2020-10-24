@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/24 23:36:03 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/24 23:43:02 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int join_save_next_str(char **line, char **next_str)
 		tmp = *next_str;
 		*next_str = ft_substr(ft_strchr(*next_str, '\n') + 1, 0, ft_strlen(ft_strchr(*next_str, '\n')));
 		free(tmp);
-		if (!*next_str)
+		if (!(*next_str))
 			return (ERROR);
 		return (SUCCESS);
 	}
@@ -95,10 +95,9 @@ int get_next_line(int fd, char **line)
 		}
 	}
 	free(buf);
-	if (read_size == 0 || status == END_OF_FILE)
-		return (END_OF_FILE);
-	else if (read_size == -1 || status == ERROR)
-		return (ERROR);
-	else
-		return (SUCCESS);
+	if (read_size == 0)
+		status = END_OF_FILE;
+	else if (read_size == -1)
+		status = ERROR;
+	return (status);
 }
