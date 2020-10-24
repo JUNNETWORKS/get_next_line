@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 02:06:30 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/25 04:24:08 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,11 @@ static int	split_by_newline(char **line, char **next_str, char *buf)
 	if (!(tmp = ft_substr(buf, 0, ft_strchr(buf, '\n') - buf)))
 		return (ERROR);
 	old_line = *line;
-	if (!(*line = ft_strjoin(*line, tmp)))
-	{
-		free(old_line);
-		free(tmp);
-		return (ERROR);
-	}
+	*line = ft_strjoin(*line, tmp);
 	free(old_line);
 	free(tmp);
+	if (!(*line))
+		return (ERROR);
 	if (!(*next_str = ft_substr(ft_strchr(buf, '\n') + 1, 0,
 								ft_strlen(ft_strchr(buf, '\n')))))
 		return (ERROR);
