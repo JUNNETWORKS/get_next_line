@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:45 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/26 02:52:06 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/26 02:55:01 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 typedef struct s_save_list
 {
   int			fd;
-  char			*next_str;
+  char			*save;
   t_save_list	*next;
 } t_save_list;
 
