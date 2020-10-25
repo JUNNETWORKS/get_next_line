@@ -6,42 +6,42 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/26 02:19:35 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/26 02:48:33 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	join_save_next_str(char **line, char **next_str)
+static int	join_line_and_save(char **line, char **save)
 {
 	char	*tmp;
 	char	*newline_ptr;
 
-	if ((newline_ptr = ft_strchr(*next_str, '\n')))
+	if ((newline_ptr = ft_strchr(*save, '\n')))
 	{
 		tmp = *line;
-		*line = ft_substr(*next_str, 0, newline_ptr - *next_str);
+		*line = ft_substr(*save, 0, newline_ptr - *save);
 		free(tmp);
 		if (!(*line))
 			return (ERROR);
-		tmp = *next_str;
-		*next_str = ft_substr(newline_ptr + 1, 0, ft_strlen(newline_ptr + 1));
+		tmp = *save;
+		*save = ft_substr(newline_ptr + 1, 0, ft_strlen(newline_ptr + 1));
 		free(tmp);
-		if (!(*next_str))
+		if (!(*save))
 			return (ERROR);
 		return (SUCCESS);
 	}
 	else
 	{
 		tmp = *line;
-		*line = *next_str;
-		*next_str = NULL;
+		*line = *save;
+		*save = NULL;
 		free(tmp);
 		return (CONTINUE_PROC);
 	}
 }
 
-static int	split_by_newline(char **line, char **next_str, char *buf)
+static int	split_by_newline(char **line, char **save, char *buf)
 {
 	char	*old_line;
 	char	*tmp;
@@ -56,7 +56,7 @@ static int	split_by_newline(char **line, char **next_str, char *buf)
 	free(tmp);
 	if (!(*line))
 		return (ERROR);
-	if (!(*next_str = ft_substr(newline_ptr + 1, 0,
+	if (!(*save = ft_substr(newline_ptr + 1, 0,
 								ft_strlen(newline_ptr + 1))))
 		return (ERROR);
 	return (SUCCESS);
@@ -74,7 +74,7 @@ static int	join_line_and_buf(char **line, char *buf)
 	return (CONTINUE_PROC);
 }
 
-static int	read_process(int fd, char **line, char **next_str)
+static int	read_process(int fd, char **line, char **save)
 {
 	ssize_t		read_size;
 	int			ret;
@@ -87,7 +87,7 @@ static int	read_process(int fd, char **line, char **next_str)
 	{
 		buf[read_size] = '\0';
 		if (ft_strchr(buf, '\n'))
-			ret = split_by_newline(line, next_str, buf);
+			ret = split_by_newline(line, save, buf);
 		else
 			ret = join_line_and_buf(line, buf);
 	}
@@ -102,14 +102,14 @@ static int	read_process(int fd, char **line, char **next_str)
 int			get_next_line(int fd, char **line)
 {
 	int			ret;
-	static char	*next_str;
+	static char	*save;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(*line = ft_strdup("")))
 		return (ERROR);
 	ret = CONTINUE_PROC;
-	if (next_str)
-		ret = join_save_next_str(line, &next_str);
+	if (save)
+		ret = join_line_and_save(line, &save);
 	if (ret == CONTINUE_PROC)
-		ret = read_process(fd, line, &next_str);
+		ret = read_process(fd, line, &save);
 	return (ret);
 }
