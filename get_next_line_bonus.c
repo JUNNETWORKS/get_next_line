@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 14:56:54 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/25 16:42:06 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,8 @@ int			get_next_line(int fd, char **line)
 	int			ret;
 	static char	*next_str[1024];  // fd が1024超えたらエラー出るから修正が必要
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(*line = ft_strdup("")))
 		return (ERROR);
-	*line = malloc(1);
-	*line[0] = '\0';
 	ret = CONTINUE_PROC;
 	if (next_str[fd])
 		ret = join_save_next_str(line, &next_str[fd]);

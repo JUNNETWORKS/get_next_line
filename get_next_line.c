@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 15:33:46 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/25 16:41:41 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,8 @@ int			get_next_line(int fd, char **line)
 	int			ret;
 	static char	*next_str;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(*line = ft_strdup("")))
 		return (ERROR);
-	// ft_strdupでいけるらしい  *line = strdup();
-	if (!(*line = ft_strdup("")))
-		return (ERROR);
-	// *line = malloc(1);  // エラーチェック
-	// *line[0] = '\0';
 	ret = CONTINUE_PROC;
 	if (next_str)
 		ret = join_save_next_str(line, &next_str);
