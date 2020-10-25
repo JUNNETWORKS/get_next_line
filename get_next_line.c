@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 16:41:41 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/26 02:19:35 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,17 @@
 static int	join_save_next_str(char **line, char **next_str)
 {
 	char	*tmp;
+	char	*newline_ptr;
 
-	// // ft_strchr(*next_str, '\n') を変数に入れて計算量を減らせる
-	if (ft_strchr(*next_str, '\n'))
+	if ((newline_ptr = ft_strchr(*next_str, '\n')))
 	{
 		tmp = *line;
-		*line = ft_substr(*next_str, 0, ft_strchr(*next_str, '\n') - *next_str);
+		*line = ft_substr(*next_str, 0, newline_ptr - *next_str);
 		free(tmp);
 		if (!(*line))
 			return (ERROR);
 		tmp = *next_str;
-		*next_str = ft_substr(ft_strchr(*next_str, '\n') + 1, 0,
-								ft_strlen(ft_strchr(*next_str, '\n') + 1));
+		*next_str = ft_substr(newline_ptr + 1, 0, ft_strlen(newline_ptr + 1));
 		free(tmp);
 		if (!(*next_str))
 			return (ERROR);
@@ -46,9 +45,10 @@ static int	split_by_newline(char **line, char **next_str, char *buf)
 {
 	char	*old_line;
 	char	*tmp;
+	char	*newline_ptr;
 
-	// ft_strchr(buf, '\n') を変数に入れて計算量を減らせる
-	if (!(tmp = ft_substr(buf, 0, ft_strchr(buf, '\n') - buf)))
+	newline_ptr = ft_strchr(buf, '\n');
+	if (!(tmp = ft_substr(buf, 0, newline_ptr - buf)))
 		return (ERROR);
 	old_line = *line;
 	*line = ft_strjoin(*line, tmp);
@@ -56,8 +56,8 @@ static int	split_by_newline(char **line, char **next_str, char *buf)
 	free(tmp);
 	if (!(*line))
 		return (ERROR);
-	if (!(*next_str = ft_substr(ft_strchr(buf, '\n') + 1, 0,
-								ft_strlen(ft_strchr(buf, '\n') + 1))))
+	if (!(*next_str = ft_substr(newline_ptr + 1, 0,
+								ft_strlen(newline_ptr + 1))))
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -67,12 +67,10 @@ static int	join_line_and_buf(char **line, char *buf)
 	char	*tmp;
 
 	tmp = *line;
-	if (!(*line = ft_strjoin(*line, buf)))
-	{
-		free(tmp);
-		return (ERROR);
-	}
+	*line = ft_strjoin(*line, buf);
 	free(tmp);
+	if (!(*line))
+		return (ERROR);
 	return (CONTINUE_PROC);
 }
 
