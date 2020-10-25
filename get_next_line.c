@@ -6,17 +6,17 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 04:26:32 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/25 15:33:46 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 static int	join_save_next_str(char **line, char **next_str)
 {
 	char	*tmp;
 
+	// // ft_strchr(*next_str, '\n') を変数に入れて計算量を減らせる
 	if (ft_strchr(*next_str, '\n'))
 	{
 		tmp = *line;
@@ -26,7 +26,7 @@ static int	join_save_next_str(char **line, char **next_str)
 			return (ERROR);
 		tmp = *next_str;
 		*next_str = ft_substr(ft_strchr(*next_str, '\n') + 1, 0,
-								ft_strlen(ft_strchr(*next_str, '\n')));
+								ft_strlen(ft_strchr(*next_str, '\n') + 1));
 		free(tmp);
 		if (!(*next_str))
 			return (ERROR);
@@ -47,6 +47,7 @@ static int	split_by_newline(char **line, char **next_str, char *buf)
 	char	*old_line;
 	char	*tmp;
 
+	// ft_strchr(buf, '\n') を変数に入れて計算量を減らせる
 	if (!(tmp = ft_substr(buf, 0, ft_strchr(buf, '\n') - buf)))
 		return (ERROR);
 	old_line = *line;
@@ -107,8 +108,11 @@ int			get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (ERROR);
-	*line = malloc(1);
-	*line[0] = '\0';
+	// ft_strdupでいけるらしい  *line = strdup();
+	if (!(*line = ft_strdup("")))
+		return (ERROR);
+	// *line = malloc(1);  // エラーチェック
+	// *line[0] = '\0';
 	ret = CONTINUE_PROC;
 	if (next_str)
 		ret = join_save_next_str(line, &next_str);

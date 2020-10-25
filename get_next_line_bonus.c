@@ -6,12 +6,11 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 02:22:39 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/25 14:56:54 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 static int	join_save_next_str(char **line, char **next_str)
 {
@@ -106,7 +105,7 @@ static int	read_process(int fd, char **line, char **next_str)
 int			get_next_line(int fd, char **line)
 {
 	int			ret;
-	static char	*next_str[1024];
+	static char	*next_str[1024];  // fd が1024超えたらエラー出るから修正が必要
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (ERROR);
