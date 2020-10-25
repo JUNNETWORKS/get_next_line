@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:45 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/26 03:14:34 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/26 04:35:29 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,6 @@
 # define END_OF_FILE	0
 # define ERROR			-1
 # define CONTINUE_PROC	-2
-
-typedef struct s_save_list
-{
-  int			            fd;
-  char			          *save;
-  struct s_save_list  *next;
-} t_save_list;
-
 
 int		get_next_line(int fd, char **line);
 char	*ft_strdup(const char *s);
