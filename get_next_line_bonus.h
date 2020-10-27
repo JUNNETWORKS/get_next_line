@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:45 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/27 21:13:39 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/27 23:22:04 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # define FD_MAX 4096
 
 int		get_next_line(int fd, char **line);
-char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);

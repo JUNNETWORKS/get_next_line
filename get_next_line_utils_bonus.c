@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:55 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/25 02:22:56 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/27 23:21:59 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,6 @@ size_t	ft_strlen(const char *s)
 	while (s[ans])
 		ans++;
 	return (ans);
-}
-
-char	*ft_strdup(const char *s)
-{
-	size_t			s_len;
-	char			*new_str;
-	size_t			i;
-
-	s_len = ft_strlen(s);
-	if (!(new_str = (char*)malloc(s_len + 1)))
-		return (NULL);
-	i = 0;
-	while (i < s_len)
-	{
-		new_str[i] = s[i];
-		i++;
-	}
-	new_str[s_len] = '\0';
-	return (new_str);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -81,15 +62,21 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char			*str;
 	char			*ans;
+	size_t			s1_len;
+	size_t			s2_len;
 	unsigned int	total_len;
 
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
 	if (!s1 && !s2)
 		return (NULL);
 	if (s1 && !s2)
-		return (ft_strdup(s1));
+		// return (ft_strdup(s1));
+		return (ft_substr(s1, 0, s1_len));
 	if (!s1 && s2)
-		return (ft_strdup(s2));
-	total_len = ft_strlen(s1) + ft_strlen(s2);
+		// return (ft_strdup(s2));
+		return (ft_substr(s2, 0, s2_len));
+	total_len = s1_len + ft_strlen(s2);
 	if (!(str = malloc(total_len + 1)))
 		return (NULL);
 	ans = str;

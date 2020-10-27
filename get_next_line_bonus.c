@@ -6,13 +6,13 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/27 21:09:05 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/27 23:23:24 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static int	join_save_save(char **line, char **save)
+static int	join_line_from_save(char **line, char **save)
 {
 	char	*tmp;
 
@@ -107,11 +107,11 @@ int			get_next_line(int fd, char **line)
 	int			ret;
 	static char	*save[FD_MAX];
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(*line = ft_strdup("")))
+	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(*line = ft_substr("", 0, 0)))
 		return (ERROR);
 	ret = CONTINUE_READ;
 	if (save[fd])
-		ret = join_line_and_save(line, &save[fd]);
+		ret = join_line_from_save(line, &save[fd]);
 	if (ret == CONTINUE_READ)
 		ret = read_process(fd, line, &save[fd]);
 	return (ret);
