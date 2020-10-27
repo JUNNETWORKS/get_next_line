@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/27 23:23:24 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/27 23:26:08 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int			get_next_line(int fd, char **line)
 	int			ret;
 	static char	*save[FD_MAX];
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(*line = ft_substr("", 0, 0)))
+	if (fd < 0 || fd >= FD_MAX || !line || BUFFER_SIZE <= 0 || !(*line = ft_substr("", 0, 0)))
 		return (ERROR);
 	ret = CONTINUE_READ;
 	if (save[fd])
