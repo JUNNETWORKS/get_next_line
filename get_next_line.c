@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:15:26 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/26 02:48:33 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/27 21:09:05 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	join_line_and_save(char **line, char **save)
 		*line = *save;
 		*save = NULL;
 		free(tmp);
-		return (CONTINUE_PROC);
+		return (CONTINUE_READ);
 	}
 }
 
@@ -71,7 +71,7 @@ static int	join_line_and_buf(char **line, char *buf)
 	free(tmp);
 	if (!(*line))
 		return (ERROR);
-	return (CONTINUE_PROC);
+	return (CONTINUE_READ);
 }
 
 static int	read_process(int fd, char **line, char **save)
@@ -80,10 +80,10 @@ static int	read_process(int fd, char **line, char **save)
 	int			ret;
 	char		*buf;
 
-	ret = CONTINUE_PROC;
+	ret = CONTINUE_READ;
 	if (!(buf = malloc(BUFFER_SIZE + 1)))
 		return (ERROR);
-	while (ret == CONTINUE_PROC && (read_size = read(fd, buf, BUFFER_SIZE)) > 0)
+	while (ret == CONTINUE_READ && (read_size = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[read_size] = '\0';
 		if (ft_strchr(buf, '\n'))
@@ -92,9 +92,9 @@ static int	read_process(int fd, char **line, char **save)
 			ret = join_line_and_buf(line, buf);
 	}
 	free(buf);
-	if (ret == CONTINUE_PROC && read_size == 0)
+	if (ret == CONTINUE_READ && read_size == 0)
 		ret = END_OF_FILE;
-	else if (ret == CONTINUE_PROC && read_size == -1)
+	else if (ret == CONTINUE_READ && read_size == -1)
 		ret = ERROR;
 	return (ret);
 }
@@ -106,10 +106,10 @@ int			get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(*line = ft_strdup("")))
 		return (ERROR);
-	ret = CONTINUE_PROC;
+	ret = CONTINUE_READ;
 	if (save)
 		ret = join_line_and_save(line, &save);
-	if (ret == CONTINUE_PROC)
+	if (ret == CONTINUE_READ)
 		ret = read_process(fd, line, &save);
 	return (ret);
 }
