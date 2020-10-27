@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:45 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/26 04:35:29 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/27 21:13:39 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # define SUCCESS		1
 # define END_OF_FILE	0
 # define ERROR			-1
-# define CONTINUE_PROC	-2
+# define CONTINUE_READ	-2
+# define FD_MAX 4096
 
 int		get_next_line(int fd, char **line);
 char	*ft_strdup(const char *s);
