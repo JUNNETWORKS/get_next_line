@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:45 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/27 23:22:04 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/27 23:41:25 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 # define ERROR			-1
 # define CONTINUE_READ	-2
 # define FD_MAX 4096
+
+typedef struct	s_list
+{
+	int		fd;
+	char	*save;
+	t_list	*next;
+}	t_list;
+
 
 int		get_next_line(int fd, char **line);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
