@@ -6,11 +6,12 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:55 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 18:09:24 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 18:27:31 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <stdio.h>
 
 size_t	ft_strlen(const char *s)
 {
@@ -101,7 +102,7 @@ t_list	*search_fd_elem(t_list *lst, int fd)
 	return (NULL);
 }
 
-t_list	*create_fd_elem(t_list **lst, int fd, size_t save_size)
+t_list	*create_fd_elem(t_list **lst, int fd)
 {
 	t_list *new;
 
@@ -109,14 +110,14 @@ t_list	*create_fd_elem(t_list **lst, int fd, size_t save_size)
 		return (NULL);
 	if (!(new = malloc(sizeof(t_list))))
 		return (NULL);
-	if (!(new->save = malloc(save_size)))
-	{
-		free(new);
-		return (NULL);
-	}
+	// if (!(new->save = malloc(save_size)))
+	// {
+	// 	free(new);
+	// 	return (NULL);
+	// }
 	new->fd = fd;
+	new->save = NULL;
 	// 新しく作成した要素は先頭に繋げる
-	new->previous = NULL;
 	if (!(*lst))
 	{
 		*lst = new;
@@ -141,11 +142,10 @@ void		delete_fd_elem(t_list **lst, int fd)
 		if (!(fd_elem = search_fd_elem(*lst, fd)))
 			return ;
 		free(fd_elem->save);
-		if (fd_elem->previous)
-			fd_elem->previous->next = fd_elem->next;
-		else
-			*lst = fd_elem->next;
+		printf("ptr \"%p\" is freed!\n", fd_elem->save);
+		*lst = fd_elem->next;
 		free(fd_elem);
+		printf("ptr \"%p\" is freed!\n", fd_elem);
 	}
 	// マイナスの時は delete all
 	else
