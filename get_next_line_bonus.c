@@ -6,11 +6,12 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/27 23:26:08 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 18:07:31 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <stdio.h>
 
 static int	join_line_from_save(char **line, char **save)
 {
@@ -104,15 +105,28 @@ static int	read_process(int fd, char **line, char **save)
 
 int			get_next_line(int fd, char **line)
 {
-	int			ret;
-	static char	*save[FD_MAX];
+	int				ret;
+	static t_list	*save_list;
+	t_list			*target_save_list;
+	// static char		*save[FD_MAX];
 
-	if (fd < 0 || fd >= FD_MAX || !line || BUFFER_SIZE <= 0 || !(*line = ft_substr("", 0, 0)))
+if (fd < 0 || fd >= FD_MAX || !line || BUFFER_SIZE <= 0 || !(*line = ft_substr("", 0, 0)))
 		return (ERROR);
+	if (!(target_save_list = search_fd_elem(save_list, fd)))
+		if (!(target_save_list = create_fd_elem(&save_list, fd, BUFFER_SIZE + 1)))
+			return (ERROR);
 	ret = CONTINUE_READ;
-	if (save[fd])
-		ret = join_line_from_save(line, &save[fd]);
+	printf("target_save_list\n");
+	printf("\tfd:   %d\n", target_save_list->fd);
+	printf("\tsave: %p\n", target_save_list->save);
+	printf("\tsave: %s\n", target_save_list->save);
+	printf("\tprevious: %p\n", target_save_list->previous);
+	printf("\tnext: %p\n", target_save_list->next);
+	if (target_save_list->save)
+		ret = join_line_from_save(line, &target_save_list->save);
 	if (ret == CONTINUE_READ)
-		ret = read_process(fd, line, &save[fd]);
+		ret = read_process(fd, line, &target_save_list->save);
+	if (ret == END_OF_FILE || ret == ERROR)
+		delete_fd_elem(&save_list, fd);
 	return (ret);
 }

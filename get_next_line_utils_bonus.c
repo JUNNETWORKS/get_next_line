@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:55 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/27 23:43:23 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 18:09:24 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	char	*str;
 
+	if (!s)
+		return (NULL);
 	str = (char*)s;
 	while (*str || !c)
 	{
@@ -86,4 +88,74 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		*str++ = *s2++;
 	*str = '\0';
 	return (ans);
+}
+
+t_list	*search_fd_elem(t_list *lst, int fd)
+{
+	while (lst)
+	{
+		if (lst->fd == fd)
+			return (lst);
+		lst = lst->next;
+	}
+	return (NULL);
+}
+
+t_list	*create_fd_elem(t_list **lst, int fd, size_t save_size)
+{
+	t_list *new;
+
+	if (!lst)
+		return (NULL);
+	if (!(new = malloc(sizeof(t_list))))
+		return (NULL);
+	if (!(new->save = malloc(save_size)))
+	{
+		free(new);
+		return (NULL);
+	}
+	new->fd = fd;
+	// 新しく作成した要素は先頭に繋げる
+	new->previous = NULL;
+	if (!(*lst))
+	{
+		*lst = new;
+		new->next = NULL;
+	}
+	else
+	{
+		new->next = *lst;
+		*lst = new;	
+	}
+	return (new);
+}
+
+void		delete_fd_elem(t_list **lst, int fd)
+{
+	t_list *fd_elem;
+	
+	if (!lst)
+		return ;
+	if (fd >= 0)
+	{
+		if (!(fd_elem = search_fd_elem(*lst, fd)))
+			return ;
+		free(fd_elem->save);
+		if (fd_elem->previous)
+			fd_elem->previous->next = fd_elem->next;
+		else
+			*lst = fd_elem->next;
+		free(fd_elem);
+	}
+	// マイナスの時は delete all
+	else
+	{
+		while (*lst)
+		{
+			fd_elem = *lst;
+			free(fd_elem->save);
+			*lst = fd_elem->next;
+			free(fd_elem);
+		}
+	}
 }

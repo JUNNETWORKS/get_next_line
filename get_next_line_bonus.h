@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:45 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/27 23:41:25 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 17:57:18 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,16 @@
 # define CONTINUE_READ	-2
 # define FD_MAX 4096
 
+# ifndef BUFFER_SIZE
+# 	define BUFFER_SIZE 256
+# endif
+
 typedef struct	s_list
 {
-	int		fd;
-	char	*save;
-	t_list	*next;
+	int				fd;
+	char			*save;
+	struct s_list	*previous;
+	struct s_list	*next;
 }	t_list;
 
 
@@ -35,5 +40,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
+t_list	*create_fd_elem(t_list **lst, int fd, size_t save_size);
+t_list	*search_fd_elem(t_list *lst, int fd);
+void	delete_fd_elem(t_list **lst, int fd);
 
 #endif
