@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:39:21 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:42:41 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int			get_next_line(int fd, char **line)
 	static t_list	*save_list_head;
 	t_list			*target_save_list;
 
-	if (fd < 0 || fd >= FD_MAX || !line || BUFFER_SIZE <= 0 || !(*line = ft_substr("", 0, 0)))
+	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !(*line = ft_substr("", 0, 0)))
 		return (ERROR);
 	target_save_list = save_list_head;
 	while (target_save_list && target_save_list->fd != fd)

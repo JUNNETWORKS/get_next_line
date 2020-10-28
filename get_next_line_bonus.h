@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:45 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:37:52 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:42:07 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define FD_MAX 4096
 
 # ifndef BUFFER_SIZE
-# 	define BUFFER_SIZE 256
+#  define BUFFER_SIZE 256
 # endif
 
 typedef struct	s_list
@@ -31,14 +31,13 @@ typedef struct	s_list
 	int				fd;
 	char			*save;
 	struct s_list	*next;
-}	t_list;
+}				t_list;
 
-
-int		get_next_line(int fd, char **line);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char const *s1, char const *s2);
-t_list	*create_fd_elem(t_list **lst, int fd);
+int				get_next_line(int fd, char **line);
+char			*ft_substr(char const *s, unsigned int start, size_t len);
+size_t			ft_strlen(const char *s);
+char			*ft_strchr(const char *s, int c);
+char			*ft_strjoin(char const *s1, char const *s2);
+t_list			*create_fd_elem(t_list **lst, int fd);
 
 #endif

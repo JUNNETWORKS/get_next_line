@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:55 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:37:47 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:40:34 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_list	*create_fd_elem(t_list **lst, int fd)
 		return (NULL);
 	new->fd = fd;
 	new->save = NULL;
-	// 新しく作成した要素は先頭に繋げる
 	if (!(*lst))
 	{
 		*lst = new;
@@ -108,7 +107,7 @@ t_list	*create_fd_elem(t_list **lst, int fd)
 	else
 	{
 		new->next = *lst;
-		*lst = new;	
+		*lst = new;
 	}
 	return (new);
 }
