@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:45 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 18:19:38 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:37:52 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,5 @@ size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 t_list	*create_fd_elem(t_list **lst, int fd);
-t_list	*search_fd_elem(t_list *lst, int fd);
-void	delete_fd_elem(t_list **lst, int fd);
 
 #endif

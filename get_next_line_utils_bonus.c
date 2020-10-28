@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:55 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:33:27 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:37:47 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		*str++ = *s2++;
 	*str = '\0';
 	return (ans);
-}
-
-t_list	*search_fd_elem(t_list *lst, int fd)
-{
-	while (lst)
-	{
-		if (lst->fd == fd)
-			return (lst);
-		lst = lst->next;
-	}
-	return (NULL);
 }
 
 t_list	*create_fd_elem(t_list **lst, int fd)
