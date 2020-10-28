@@ -6,12 +6,11 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:55 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:40:34 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:47:51 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 size_t	ft_strlen(const char *s)
 {

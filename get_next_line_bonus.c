@@ -6,12 +6,11 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:42:41 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:47:46 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 static int	join_line_from_save(char **line, char **save)
 {
