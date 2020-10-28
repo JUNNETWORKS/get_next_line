@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:55 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 18:27:31 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:22:46 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 && !s2)
 		return (NULL);
 	if (s1 && !s2)
-		// return (ft_strdup(s1));
 		return (ft_substr(s1, 0, s1_len));
 	if (!s1 && s2)
-		// return (ft_strdup(s2));
 		return (ft_substr(s2, 0, s2_len));
 	total_len = s1_len + ft_strlen(s2);
 	if (!(str = malloc(total_len + 1)))
@@ -110,11 +108,6 @@ t_list	*create_fd_elem(t_list **lst, int fd)
 		return (NULL);
 	if (!(new = malloc(sizeof(t_list))))
 		return (NULL);
-	// if (!(new->save = malloc(save_size)))
-	// {
-	// 	free(new);
-	// 	return (NULL);
-	// }
 	new->fd = fd;
 	new->save = NULL;
 	// 新しく作成した要素は先頭に繋げる
@@ -142,12 +135,11 @@ void		delete_fd_elem(t_list **lst, int fd)
 		if (!(fd_elem = search_fd_elem(*lst, fd)))
 			return ;
 		free(fd_elem->save);
-		printf("ptr \"%p\" is freed!\n", fd_elem->save);
+		// printf("ptr \"%p\" is freed!\n", fd_elem->save);
 		*lst = fd_elem->next;
 		free(fd_elem);
-		printf("ptr \"%p\" is freed!\n", fd_elem);
+		// printf("ptr \"%p\" is freed!\n", fd_elem);
 	}
-	// マイナスの時は delete all
 	else
 	{
 		while (*lst)
