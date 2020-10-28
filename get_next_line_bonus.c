@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:33:38 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:35:03 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,13 @@ static int	read_process(int fd, char **line, char **save)
 int			get_next_line(int fd, char **line)
 {
 	int				ret;
-	static t_list	*save_list;
+	static t_list	*save_list_head;
 	t_list			*target_save_list;
 
 	if (fd < 0 || fd >= FD_MAX || !line || BUFFER_SIZE <= 0 || !(*line = ft_substr("", 0, 0)))
 		return (ERROR);
-	if (!(target_save_list = search_fd_elem(save_list, fd)))
-		if (!(target_save_list = create_fd_elem(&save_list, fd)))
+	if (!(target_save_list = search_fd_elem(save_list_head, fd)))
+		if (!(target_save_list = create_fd_elem(&save_list_head, fd)))
 			return (ERROR);
 	ret = CONTINUE_READ;
 	if (target_save_list->save)
@@ -122,8 +122,8 @@ int			get_next_line(int fd, char **line)
 	if (ret == END_OF_FILE || ret == ERROR)
 	{
 		free(target_save_list->save);
-		if (save_list == target_save_list)
-			save_list = target_save_list->next;
+		if (save_list_head == target_save_list)
+			save_list_head = target_save_list->next;
 		free(target_save_list);
 	}
 	return (ret);
