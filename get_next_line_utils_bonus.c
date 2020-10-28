@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:55 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:22:46 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:33:27 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,32 +122,4 @@ t_list	*create_fd_elem(t_list **lst, int fd)
 		*lst = new;	
 	}
 	return (new);
-}
-
-void		delete_fd_elem(t_list **lst, int fd)
-{
-	t_list *fd_elem;
-	
-	if (!lst)
-		return ;
-	if (fd >= 0)
-	{
-		if (!(fd_elem = search_fd_elem(*lst, fd)))
-			return ;
-		free(fd_elem->save);
-		// printf("ptr \"%p\" is freed!\n", fd_elem->save);
-		*lst = fd_elem->next;
-		free(fd_elem);
-		// printf("ptr \"%p\" is freed!\n", fd_elem);
-	}
-	else
-	{
-		while (*lst)
-		{
-			fd_elem = *lst;
-			free(fd_elem->save);
-			*lst = fd_elem->next;
-			free(fd_elem);
-		}
-	}
 }
