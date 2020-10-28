@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/28 23:47:46 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/10/29 00:10:05 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	join_line_from_save(char **line, char **save)
 			return (ERROR);
 		tmp = *save;
 		*save = ft_substr(ft_strchr(*save, '\n') + 1, 0,
-								ft_strlen(ft_strchr(*save, '\n')));
+								ft_strlen(ft_strchr(*save, '\n') + 1));
 		free(tmp);
 		if (!(*save))
 			return (ERROR);
@@ -49,16 +49,13 @@ static int	split_by_newline(char **line, char **save, char *buf)
 	if (!(tmp = ft_substr(buf, 0, ft_strchr(buf, '\n') - buf)))
 		return (ERROR);
 	old_line = *line;
-	if (!(*line = ft_strjoin(*line, tmp)))
-	{
-		free(old_line);
-		free(tmp);
-		return (ERROR);
-	}
+	*line = ft_strjoin(*line, tmp);
 	free(old_line);
 	free(tmp);
+	if (!(*line))
+		return (ERROR);
 	if (!(*save = ft_substr(ft_strchr(buf, '\n') + 1, 0,
-								ft_strlen(ft_strchr(buf, '\n')))))
+								ft_strlen(ft_strchr(buf, '\n') + 1))))
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -68,12 +65,10 @@ static int	join_line_and_buf(char **line, char *buf)
 	char	*tmp;
 
 	tmp = *line;
-	if (!(*line = ft_strjoin(*line, buf)))
-	{
-		free(tmp);
-		return (ERROR);
-	}
+	*line = ft_strjoin(*line, buf);
 	free(tmp);
+	if (!(*line))
+		return (ERROR);
 	return (CONTINUE_READ);
 }
 
