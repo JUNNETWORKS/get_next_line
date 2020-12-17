@@ -6,7 +6,7 @@
 /*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 02:22:38 by jtanaka           #+#    #+#             */
-/*   Updated: 2020/10/29 00:10:05 by jtanaka          ###   ########.fr       */
+/*   Updated: 2020/12/18 02:59:53 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,13 @@ int			get_next_line(int fd, char **line)
 		free(target_save_list->save);
 		if (save_list_head == target_save_list)
 			save_list_head = target_save_list->next;
+		else
+		{
+			t_list *tmp = save_list_head;
+			while (tmp->next != target_save_list)
+				tmp = tmp->next;
+			tmp->next = target_save_list->next;
+		}
 		free(target_save_list);
 	}
 	return (ret);
